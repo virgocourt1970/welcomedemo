@@ -12,7 +12,10 @@ function Navigation(props) {
           <Link to="/clock">Clock</Link>
         </li>
         <li>
-          <Link to="/contact">contact</Link>
+          <Link to="/contact">Contact</Link>
+        </li>
+        <li>
+          <Link to="/jeopardy">Jeopardy</Link>
         </li>
       </ul>
     </div>
