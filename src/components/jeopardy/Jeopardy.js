@@ -1,16 +1,24 @@
 import React, { Component } from "react";
+import Clue from "../Clue/Clue";
 //import our service
 import JeopardyService from "../../JeopardyService";
+
 class Jeopardy extends Component {
   //set our initial state and set up our service as this.client on this component
   constructor(props) {
     super(props);
     this.client = new JeopardyService();
     this.state = {
-      data: { category: {} },
+      data: {
+        question: "",
+        value: 0,
+        category: {
+          title: "",
+        },
+      },
       score: 0,
       formData: {
-        answer: "",
+        guess: "",
       },
     };
   }
@@ -34,20 +42,20 @@ class Jeopardy extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log("test");
-    let userData = this.state.formData.answer;
-    let realData = this.state.data.answer;
-    if (userData === realData) {
-      this.setState((prvState) => {
+    let userGuess = this.state.formData.guess;
+    let realAnswer = this.state.data.answer;
+
+    if (userGuess === realAnswer) {
+      this.setState((previousState) => {
         return {
-          score: prvState.score + this.state.data.value,
+          score: previousState.score + this.state.data.value,
         };
       });
-
       console.log("correct answer");
     } else {
-      this.setState((prvState) => {
+      this.setState((previousState) => {
         return {
-          score: prvState.score - this.state.data.value,
+          score: previousState.score - this.state.data.value,
         };
       });
       console.log("incorrect answer");
@@ -62,24 +70,15 @@ class Jeopardy extends Component {
   render() {
     return (
       <div>
-        {JSON.stringify(this.state.data)}
-        <h2> {this.state.data.question}</h2>
-        <h2> ${this.state.data.value}</h2>
-        <h2> category: {this.state.data.category.title} </h2>
-        <h2>score: {this.state.score}</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="answer">submit answer</label>
-            <input
-              type="text"
-              name="answer"
-              value={this.state.formData.answer}
-              onChange={this.handleChange}
-            />
-          </div>
-
-          <button>Subnit Form</button>
-        </form>
+        <Clue
+          question={this.state.data.question}
+          value={this.state.data.value}
+          category={this.state.data.category.title}
+          score={this.state.score}
+          guess={this.state.formData.guess}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+        />
       </div>
     );
   }
